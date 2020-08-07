@@ -17,7 +17,7 @@
 <img src="setup.jpg" width="200" hight="220">
 </p>
 
-## setup instuction
+## setup instruction
 
 ```
 git clone https://github.com/remo7777/Termux-Banner-Bash.git; cd Termux-Banner-Bash; bash setup; 
