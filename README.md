@@ -20,6 +20,6 @@
 ## setup instuction
 
 ```
-git clone https://github.com/remo7777/Termux-Banner-Bash.git; bash setup; 
+git clone https://github.com/remo7777/Termux-Banner-Bash.git; cd Termux-Banner-Bash; bash setup; 
 
 ```
