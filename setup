@@ -104,11 +104,11 @@ BANNER() {
 }
 COPY_FILES() {
 	cp .object/.draw .object/.bashrc ~/;
-	mkdir -p ~/.termux;
+	mkdir -p ~/.termux/;
 	cp .object/color*.* .object/font*.* .object/termux.* ~/.termux/;
 }
 clear
-#PKG_INSTALL
+PKG_INSTALL
 BANNER
 echo
 echo -e "$(tput setab 3)$(tput setab 1) Note : $(tput sgr 0)" "\e[0m\e[32m Type your username without using any blank space\e[0m";
@@ -125,10 +125,10 @@ if [ ${#usrn} -eq 0 ]; then
 	exit 0
 else
 	echo "NAME=$(cat $answer)" > ~/.username
-	#COPY_FILES
-	#termux-reoload-settings
-	#source ~/.bashrc
-	#termux-reoload-settings
+	COPY_FILES
+	termux-reoload-settings
+	source ~/.bashrc
+	termux-reoload-settings
 	echo
 	echo -e "\e[35m[\e[33m*\e[35m] \e[32mSetup finished now, close your termux and reopen termux \e[0m"
 		termux-tts-speak -r 0.8 "Setup finished now, close your termux and reopen termux"
