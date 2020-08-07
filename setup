@@ -1,0 +1,136 @@
+#! /data/data/com.termux/files/usr/bin/bash
+answer=$(mktemp)
+HIDECURSOR(){ echo -en "\033[?25l";}
+NORM(){ echo -en "\033[?12l\033[?25h";}
+spin () {
+
+local pid=$!
+local delay=0.05
+local spinstr='|/-\'
+while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+	HIDECURSOR
+        printf "\e[1;34m\r[*] \e[1;32mit will take time..Please wait...  [\e[1;33m%c\e[1;32m]\e[0m  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "   \b\b\b"
+    NORM
+    printf "\e[1;33m[Done]\e[0m"
+    echo ""
+}
+box()
+{
+  local s=("$@") b w
+  for l in "${s[@]}"; do
+    ((w<${#l})) && { b="$l"; w="${#l}"; }
+  done
+  tput setaf 3
+  echo " -${b//?/-}-
+| ${b//?/ } |"
+  for l in "${s[@]}"; do
+    printf '| %s%*s%s |\n' "$(tput setaf 4)" "-$w" "$l" "$(tput setaf 3)"
+  done
+  echo "| ${b//?/ } |
+ -${b//?/-}-"
+  tput sgr 0
+}
+ask() {
+  local 'args' 'char' 'charcount' 'prompt' 'reply' 'silent'
+
+  # Basic arguments parsing
+  while [[ "${1++}" ]]; do
+    case "${1}" in
+      ( '--silent' | '-s' )
+        silent='yes'
+        ;;
+      ( '--' )
+        args+=( "${@:2}" )
+        break
+        ;;
+      ( * )
+        args+=( "${1}" )
+        ;;
+    esac
+    shift || break
+  done
+
+  if [[ "${silent}" == 'yes' ]]; then
+    for prompt in "${args[@]}"; do
+      charcount='0'
+      prompt="${prompt}: "
+      reply=''
+      while IFS='' read -n '1' -p "${prompt}" -r -s 'char'; do
+        case "${char}" in
+          # Handles NULL
+          ( $'\000' )
+            break
+            ;;
+          # Handles BACKSPACE and DELETE
+          ( $'\010' | $'\177' )
+            if (( charcount > 0 )); then
+              prompt=$'\b \b'
+              reply="${reply%?}"
+              (( charcount-- ))
+            else
+              prompt=''
+            fi
+            ;;
+          ( * )
+            prompt='*'
+            reply+="${char}"
+            (( charcount++ ))
+            ;;
+        esac
+      done
+      printf '\n' >&2
+      printf '%s\n' "${reply}" > ${answer}
+    done
+  else
+    for prompt in "${args[@]}"; do
+      IFS='' read -p "${prompt}: " -r 'reply'
+      printf '%s\n' "${reply}" > ${answer}
+    done
+  fi
+}
+PKG_INSTALL() {
+	echo -e "\e[35m[\e[33m*\e[35m] \e[32mInstalling packages and requirements..."
+	echo;
+	( apt update && apt upgrade -y;apt install figlet toilet ruby ncurses-utils wget exa termux-api -y;gem install lolcat;wget -O $PREFIX/share/figlet/cricket.flf http://www.figlet.org/fonts/cricket.flf;wget -O $PREFIX/share/figlet/ASCII-Shadow.flf https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Shadow.flf;wget -O $PREFIX/share/figlet/tinker-toy.flf http://www.figlet.org/fonts/tinker-toy.flf;) &> /dev/null & spin;
+}
+BANNER() {
+	clear;toilet -t -f tinker-toy " Tmux Banner." --gay -F border;tput cup 7 42;echo -e "\e[34mBoot Script \e[32m2.0\e[0m";tput cup 9 0;
+}
+COPY_FILES() {
+	cp .object/.draw .object/.bashrc ~/;
+	mkdir -p ~/.termux;
+	cp .object/color*.* .object/font*.* .object/termux.* ~/.termux/;
+}
+clear
+#PKG_INSTALL
+BANNER
+echo
+echo -e "$(tput setab 3)$(tput setab 1) Note : $(tput sgr 0)" "\e[0m\e[32m Type your username without using any blank space\e[0m";
+echo
+#(sleep 10) &> /dev/null & spin
+echo -e "For Example : [Your_name] (Remo773 or remo773 or R3M0773)"
+tput setaf 4
+echo
+ask "Enter Username "
+usrn=`cat ${answer}`
+if [ ${#usrn} -eq 0 ]; then
+	echo
+	echo -e "\e[35m[\e[33m*\e[35m] \e[32mYou have not type anything..\e[0m" 
+	exit 0
+else
+	echo "NAME=$(cat $answer)" > ~/.username
+	#COPY_FILES
+	#termux-reoload-settings
+	#source ~/.bashrc
+	#termux-reoload-settings
+	echo
+	echo -e "\e[35m[\e[33m*\e[35m] \e[32mSetup finished now, close your termux and reopen termux \e[0m"
+		termux-tts-speak -r 0.8 "Setup finished now, close your termux and reopen termux"
+fi
+#echo $BASHPID
