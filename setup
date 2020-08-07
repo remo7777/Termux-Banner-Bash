@@ -103,6 +103,7 @@ BANNER() {
 	clear;toilet -t -f tinker-toy " Tmux Banner." --gay -F border;tput cup 7 42;echo -e "\e[34mBoot Script \e[32m2.0\e[0m";tput cup 9 0;
 }
 COPY_FILES() {
+	rm -rf ~/.draw ~/.bashrc ~/.termux/*
 	cp .object/.draw .object/.bashrc ~/;
 	mkdir -p ~/.termux/;
 	cp .object/color*.* .object/font*.* .object/termux.* ~/.termux/;
