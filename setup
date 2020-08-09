@@ -1,4 +1,5 @@
 #! /data/data/com.termux/files/usr/bin/bash
+version=`getprop ro.build.version.release | sed -e 's/\.//g' | cut -c1`
 answer=$(mktemp)
 HIDECURSOR(){ echo -en "\033[?25l";}
 NORM(){ echo -en "\033[?12l\033[?25h";}
@@ -106,7 +107,13 @@ COPY_FILES() {
 	rm -rf ~/.draw ~/.bashrc ~/.termux/*
 	cp .object/.draw .object/.bashrc ~/;
 	mkdir -p ~/.termux/;
-	cp .object/color*.* .object/font*.* .object/termux.* ~/.termux/;
+	if [ "$version" -le 7 ]; then
+		cp .object/color*.* .object/font*.* ~/.termux/
+		cp .object/termux.properties2 ~/.termux/
+	else
+		cp .object/color*.* .object/font*.* ~/.termux/;
+		cp .object/termux.properties ~/.termux/
+	fi
 }
 clear
 PKG_INSTALL
