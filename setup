@@ -109,7 +109,7 @@ COPY_FILES() {
 	mkdir -p ~/.termux/;
 	if [ "$version" -le 7 ]; then
 		cp .object/color*.* .object/font*.* ~/.termux/
-		cp .object/termux.properties2 ~/.termux/
+		cp .object/termux.properties2 ~/.termux/termux.properties
 	else
 		cp .object/color*.* .object/font*.* ~/.termux/;
 		cp .object/termux.properties ~/.termux/

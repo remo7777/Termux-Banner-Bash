@@ -2,6 +2,6 @@ shortcut.create-session = ctrl + t
 shortcut.next-session = ctrl + 5
 shortcut.previous-session = ctrl + 4
 extra-keys = [ \
- ['ESC','-','BACKSLASH','HOME','UP','END','PGUP','KEYBOARD'], \
+ ['ESC','|','/','HOME','UP','END','PGUP','DEL'], \
  ['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN','BKSP'] \
 ]
