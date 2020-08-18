@@ -111,7 +111,7 @@ COPY_FILES() {
 		rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
 		cp .object/color*.* .object/font*.* ~/.termux/
 		cp .object/termux.properties2 ~/.termux/termux.properties
-		cp .object/ASCII-Shadow.flf $PREFIX/share/    figlet/
+		cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
 	else
 		rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
 		cp .object/color*.* .object/font*.* ~/.termux/;
