@@ -123,6 +123,7 @@ COPY_FILES() {
 		cp .object/color*.* .object/font*.* ~/.termux/
 		cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
 		cp .object/termux.properties ~/.termux/
+	fi
 
 }
 clear
