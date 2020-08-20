@@ -1,5 +1,6 @@
 #! /data/data/com.termux/files/usr/bin/bash
 version=`getprop ro.build.version.release | sed -e 's/\.//g' | cut -c1`
+version1=`getprop ro.build.version.release`
 answer=$(mktemp)
 HIDECURSOR(){ echo -en "\033[?25l";}
 NORM(){ echo -en "\033[?12l\033[?25h";}
